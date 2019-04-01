@@ -41,6 +41,8 @@ func main() {
 		file = os.Args[1]
 	}
 
+	fmt.Println(file)
+
 	consignment, err := parseFile(file)
 
 	if err != nil {
