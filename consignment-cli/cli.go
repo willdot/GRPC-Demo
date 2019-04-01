@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -41,15 +40,11 @@ func main() {
 		file = os.Args[1]
 	}
 
-	fmt.Println(file)
-
 	consignment, err := parseFile(file)
 
 	if err != nil {
 		log.Fatalf("could not parse file: %v", err)
 	}
-
-	fmt.Println(consignment)
 
 	r, err := client.CreateConsignment(context.Background(), consignment)
 	if err != nil {
