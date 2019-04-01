@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"log"
-	"os"
 
 	"golang.org/x/net/context"
 
@@ -15,7 +14,6 @@ import (
 )
 
 const (
-	address         = "localhost:50051"
 	defaultFilename = "consignment.json"
 )
 
@@ -36,7 +34,7 @@ func main() {
 	cmd.Init()
 	client := pb.NewShippingServiceClient("go.micro.srv.consignment", microclient.DefaultClient)
 
-	file := defaultFilename
+	/*file := defaultFilename
 	if len(os.Args) > 1 {
 		file = os.Args[1]
 	}
@@ -52,7 +50,7 @@ func main() {
 		log.Fatalf("could not greet: %v", err)
 	}
 
-	log.Printf("created: %t", r.Created)
+	log.Printf("created: %t", r.Created)*/
 
 	getAll, err := client.GetConsignments(context.Background(), &pb.GetRequest{})
 

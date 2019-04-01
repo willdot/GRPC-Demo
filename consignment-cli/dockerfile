@@ -7,7 +7,6 @@ ADD consignment.json /app/consignment.json
 ADD consignment-cli /app/consignment-cli
 
 
-
 FROM golang:1.12.1 as builder
 
 WORKDIR /go/src/github.com/willdot/GRPC-Demo/consignment-cli
