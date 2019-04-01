@@ -8,9 +8,9 @@ ADD consignment-cli /app/consignment-cli
 
 
 
-FROM golang:1.9.0 as builder
+FROM golang:1.12.1 as builder
 
-WORKDIR /go/src/githib.com/willdot/GRPC-Demo/consignment-cli
+WORKDIR /go/src/github.com/willdot/GRPC-Demo/consignment-cli
 
 COPY . .
 
@@ -26,8 +26,8 @@ RUN apk --nocache add ca-certificates
 RUN mkdir /app
 WORKDIR /app
 
-COPY --from=builder /go/src/github.com/willdot/GRPC-Demo/consignment-cli/ .
+COPY --from=builder /go/src/github.com/willdot/GRPC-Demo/consignment-cli/consignment-cli .
 
-ENTRYPOINT [ "./consignment/cli" ]
+ENTRYPOINT [ "./consignment-cli" ]
 
 CMD ["./consignment-cli"]
