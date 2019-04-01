@@ -1,8 +1,9 @@
 package main
 
 import (
-	pb "GRPC-Demo/consignment-service/proto/consignment"
 	"fmt"
+
+	pb "github.com/willdot/GRPC-Demo/consignment-service/proto/consignment"
 
 	"golang.org/x/net/context"
 

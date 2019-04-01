@@ -6,4 +6,28 @@ WORKDIR /app
 ADD consignment.json /app/consignment.json
 ADD consignment-cli /app/consignment-cli
 
+
+
+FROM golang:1.9.0 as builder
+
+WORKDIR /go/src/githib.com/willdot/GRPC-Demo/consignment-cli
+
+COPY . .
+
+RUN go get -u github.com/golang/dep/cmd/dep
+RUN dep init && dep ensure
+
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo .
+
+FROM alpine:latest
+
+RUN apk --nocache add ca-certificates
+
+RUN mkdir /app
+WORKDIR /app
+
+COPY --from=builder /go/src/github.com/willdot/GRPC-Demo/consignment-cli/ .
+
+ENTRYPOINT [ "./consignment/cli" ]
+
 CMD ["./consignment-cli"]
