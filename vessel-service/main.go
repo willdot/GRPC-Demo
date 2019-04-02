@@ -13,6 +13,18 @@ const (
 	defaultHost = "localhost:27017"
 )
 
+func createDummyData(repo Repository) {
+	defer repo.Close()
+
+	vessels := []*pb.Vessel{
+		{Id: "vessel0001", Name: "Boaty McBoatFace", MaxWeight: 200000, Capacity: 500},
+	}
+
+	for _, v := range vessels {
+		repo.Create(v)
+	}
+}
+
 func main() {
 
 	host := os.Getenv("DB_HOST")
@@ -28,6 +40,10 @@ func main() {
 	if err != nil {
 		log.Panicf("Could not connect to datastore with host %s - %v", host, err)
 	}
+
+	repo := &VesselRepository{session.Copy()}
+
+	createDummyData(repo)
 
 	srv := micro.NewService(
 		micro.Name("go.micro.srv.vessel"),
