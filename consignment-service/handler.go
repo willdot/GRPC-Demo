@@ -23,8 +23,7 @@ func (s *service) GetRepo() Repository {
 // CreateConsignment is a method that creates a consignment
 func (s *service) CreateConsignment(ctx context.Context, req *pb.Consignment, res *pb.Response) error {
 
-	repo := s.GetRepo()
-	defer repo.Close()
+	defer s.GetRepo().Close()
 
 	vesselResponse, err := s.vesselClient.FindAvailable(context.Background(), &vesselProto.Specification{
 		MaxWeight: req.Weight,
@@ -38,7 +37,7 @@ func (s *service) CreateConsignment(ctx context.Context, req *pb.Consignment, re
 
 	req.VesselId = vesselResponse.Vessel.Id
 
-	err = repo.Create(req)
+	err = s.GetRepo().Create(req)
 	if err != nil {
 		return err
 	}
@@ -50,10 +49,9 @@ func (s *service) CreateConsignment(ctx context.Context, req *pb.Consignment, re
 
 // GetConsignments is a method that gets all consignments
 func (s *service) GetConsignments(ctx context.Context, req *pb.GetRequest, res *pb.Response) error {
-	repo := s.GetRepo()
-	defer repo.Close()
+	defer s.GetRepo().Close()
 
-	consignments, err := repo.GetAll()
+	consignments, err := s.GetRepo().GetAll()
 	if err != nil {
 		return err
 	}

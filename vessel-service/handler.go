@@ -18,10 +18,9 @@ func (s *service) GetRepo() Repository {
 
 // FindAvailable checks a provided specification against all vessels and returns ones that are under the capacity and max weight
 func (s *service) FindAvailable(ctx context.Context, req *pb.Specification, res *pb.Response) error {
-	repo := s.GetRepo()
-	defer repo.Close()
+	defer s.GetRepo().Close()
 
-	vessel, err := repo.FindAvailable(req)
+	vessel, err := s.GetRepo().FindAvailable(req)
 	if err != nil {
 		return err
 	}
@@ -32,13 +31,11 @@ func (s *service) FindAvailable(ctx context.Context, req *pb.Specification, res 
 
 // Create will create a vessel
 func (s *service) Create(ctx context.Context, req *pb.Vessel, res *pb.Response) error {
-	repo := s.GetRepo()
-	defer repo.Close()
+	defer s.GetRepo().Close()
 
-	if err := repo.Create(req); err != nil {
+	if err := s.GetRepo().Create(req); err != nil {
 		return err
 	}
-
 	res.Vessel = req
 	res.Created = true
 

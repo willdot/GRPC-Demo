@@ -1,10 +1,9 @@
 package main
 
 import (
-	"errors"
-
 	pb "github.com/willdot/GRPC-Demo/vessel-service/proto/vessel"
 	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 )
 
 const (
@@ -15,7 +14,7 @@ const (
 // Repository ...
 type Repository interface {
 	FindAvailable(*pb.Specification) (*pb.Vessel, error)
-	Create(*pb.Vessel) error
+	Create(vessel *pb.Vessel) error
 	Close()
 }
 
@@ -27,19 +26,18 @@ type VesselRepository struct {
 // FindAvailable checks a provided specification against all vessels and returns one that is under the capacity and max weight
 func (repo *VesselRepository) FindAvailable(spec *pb.Specification) (*pb.Vessel, error) {
 
-	var vessels []*pb.Vessel
+	var vessel *pb.Vessel
 
-	err := repo.collection().Find(nil).All(&vessels)
+	err := repo.collection().Find(bson.M{
+		"capacity":  bson.M{"$gte": spec.Capacity},
+		"maxweight": bson.M{"$gte": spec.MaxWeight},
+	}).One(&vessel)
+
 	if err != nil {
 		return nil, err
 	}
-	for _, vessel := range vessels {
-		if spec.Capacity <= vessel.Capacity && spec.MaxWeight <= vessel.MaxWeight {
-			return vessel, nil
-		}
-	}
 
-	return nil, errors.New("No vessel found by that spec")
+	return vessel, nil
 }
 
 // Create will create a new vessel
