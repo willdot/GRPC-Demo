@@ -15,7 +15,7 @@ const (
 // Repository ...
 type Repository interface {
 	FindAvailable(*pb.Specification) (*pb.Vessel, error)
-	Create(*pb.Vessel)
+	Create(*pb.Vessel) error
 	Close()
 }
 
