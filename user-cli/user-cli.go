@@ -7,7 +7,7 @@ import (
 
 	"github.com/micro/go-micro"
 	microclient "github.com/micro/go-micro/client"
-	pb "github.com/willdot/grpc-demo-user-service/proto/user"
+	pb "github.com/willdot/GRPC-Demo/user-service/proto/user"
 )
 
 func main() {
