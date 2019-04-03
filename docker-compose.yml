@@ -7,6 +7,11 @@ services:
     environment:
       MICRO_REGISTRY: "mdns"
 
+  user-cli:
+    build: ./user-cli
+    environment:
+      MICRO_REGISTRY: "mdns"
+
   consignment-service:
     build: ./consignment-service
     ports:
@@ -28,7 +33,7 @@ services:
   user-service:
     build: ./user-service
     ports:
-      -50053:50051
+      - 50053:50051
     environment:
       MICRO_ADDRESS: ":50051"
       MIRCRO_REGISTRY: "mdns"
