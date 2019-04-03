@@ -1,14 +1,17 @@
 package main
 
 import (
+	"log"
+
+	"golang.org/x/crypto/bcrypt"
 	"golang.org/x/net/context"
 
 	pb "github.com/willdot/GRPC-Demo/user-service/proto/user"
 )
 
 type service struct {
-	repo Repository
-	//tokenService Authable
+	repo         Repository
+	tokenService Authable
 }
 
 func (s *service) Get(ctx context.Context, req *pb.User, res *pb.Response) error {
@@ -32,8 +35,14 @@ func (s *service) GetAll(ctx context.Context, req *pb.Request, res *pb.Response)
 }
 
 func (s *service) Auth(ctx context.Context, req *pb.User, res *pb.Token) error {
+	log.Println("Logging in with: ", req.Email, req.Password)
+
 	user, err := s.repo.GetByEmailAndPassword(req)
 	if err != nil {
+		return err
+	}
+
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password)); err != nil {
 		return err
 	}
 	res.Token = user.Name

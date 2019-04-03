@@ -2,7 +2,7 @@ package go_micro_srv_user
 
 import (
 	"github.com/jinzhu/gorm"
-	uuid "github.com/satori/go.uuid"
+	"github.com/satori/go.uuid"
 )
 
 // BeforeCreate will run before a creation
