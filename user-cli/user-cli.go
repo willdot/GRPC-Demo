@@ -21,9 +21,9 @@ func main() {
 
 	client := pb.NewUserServiceClient("go.micro.srv.user", microclient.DefaultClient)
 
-	name := "will"
-	email := "will@will.com"
-	password := "test"
+	name := "will andrews"
+	email := "will123@will.com"
+	password := "password"
 	company := "civca"
 
 	r, err := client.Create(context.TODO(), &pb.User{
@@ -51,7 +51,7 @@ func main() {
 
 	authResponse, err := client.Auth(context.TODO(), &pb.User{
 		Email:    email,
-		Password: password,
+		Password: "password",
 	})
 
 	if err != nil {

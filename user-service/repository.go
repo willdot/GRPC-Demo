@@ -10,7 +10,7 @@ type Repository interface {
 	GetAll() ([]*pb.User, error)
 	Get(id string) (*pb.User, error)
 	Create(user *pb.User) error
-	GetByEmailAndPassword(user *pb.User) (*pb.User, error)
+	GetByEmail(email string) (*pb.User, error)
 }
 
 // UserRepository is a datastore
@@ -41,12 +41,13 @@ func (repo *UserRepository) Get(id string) (*pb.User, error) {
 	return user, nil
 }
 
-// GetByEmailAndPassword will get a user by email and password
-func (repo *UserRepository) GetByEmailAndPassword(user *pb.User) (*pb.User, error) {
-	if err := repo.db.Find(&user).Error; err != nil {
+// GetByEmail will get a user by email
+func (repo *UserRepository) GetByEmail(email string) (*pb.User, error) {
+	user := &pb.User{}
+	if err := repo.db.Where("email = ?", email).
+		First(&user).Error; err != nil {
 		return nil, err
 	}
-
 	return user, nil
 }
 
