@@ -23,7 +23,7 @@ func main() {
 
 	name := "will"
 	email := "will@will.com"
-	password := "test"
+	password := "testpassword123"
 	company := "civca"
 
 	r, err := client.Create(context.TODO(), &pb.User{

@@ -50,10 +50,14 @@ func (s *service) Auth(ctx context.Context, req *pb.User, res *pb.Token) error {
 }
 
 func (s *service) Create(ctx context.Context, req *pb.User, res *pb.Response) error {
+	hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+	req.Password = string(hashedPass)
 	if err := s.repo.Create(req); err != nil {
 		return err
 	}
-
 	res.User = req
 	return nil
 }

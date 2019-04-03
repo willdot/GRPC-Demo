@@ -8,7 +8,7 @@ import (
 )
 
 var (
-	key = []byte("mysupersecretkey")
+	key = []byte("mysupersecretkeythatisevenlonger")
 )
 
 // CustomClaims
