@@ -5,7 +5,7 @@ import (
 	"log"
 
 	"github.com/micro/go-micro"
-	pb "github.com/willdot/GRPC-Demo/user-service/proto/user"
+	pb "github.com/willdot/GRPC-Demo/user-service/proto/auth"
 )
 
 func main() {
