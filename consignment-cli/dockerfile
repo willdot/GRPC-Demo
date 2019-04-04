@@ -19,6 +19,6 @@ WORKDIR /app
 COPY consignment.json /app/consignment.json
 COPY --from=builder /go/src/github.com/willdot/GRPC-Demo/consignment-cli/consignment-cli .
 
-ENTRYPOINT ["./consignment-cli", "consignment.json", "will andrews"]
+ENTRYPOINT ["./consignment-cli", "consignment.json", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyIjp7ImlkIjoiOWJlNTE1OGEtNTZjMi0xMWU5LTk4MzQtMDI0MmFjMTMwMDA0IiwibmFtZSI6IndpbGxpYW0gYW5kcmV3cyIsImNvbXBhbnkiOiJjaXZjYSIsImVtYWlsIjoid2lsbEBob3RtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJhJDEwJHJyVVQ3cUNWWVBGMm5TbENienhKSU9la0NtWDAuNW5xZGVFVUFONDBSSy5BWElNTzB4anlLIn0sImV4cCI6MTU1NDYzMjE0NSwiaXNzIjoiZ28ubWljcm8uc3J2LnVzZXIifQ.FWpg3izetL3FPo237QaxmS8vcN0V59CnpVbuszGZX0s"]
 
 CMD ["./consignment-cli"] 

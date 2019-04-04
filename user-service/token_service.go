@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -12,7 +11,7 @@ var (
 	key = []byte("mysupersecretkey")
 )
 
-// CustomClaims
+// CustomClaims ..
 type CustomClaims struct {
 	User *pb.User
 	jwt.StandardClaims
@@ -32,14 +31,13 @@ type TokenService struct {
 // Decode a token
 func (s *TokenService) Decode(tokenString string) (*CustomClaims, error) {
 
-	fmt.Println("Decode: ", tokenString)
 	tokenType, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return key, nil
 	})
 
-	fmt.Println("Error: ", err)
-
-	fmt.Println("Token: ", tokenType)
+	if err != nil {
+		return nil, err
+	}
 
 	if claims, ok := tokenType.Claims.(*CustomClaims); ok && tokenType.Valid {
 		return claims, nil
