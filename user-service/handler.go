@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"log"
 
 	"golang.org/x/crypto/bcrypt"
@@ -66,6 +67,7 @@ func (s *service) Create(ctx context.Context, req *pb.User, res *pb.Response) er
 
 func (s *service) ValidateToken(ctx context.Context, req *pb.Token, res *pb.Token) error {
 
+	fmt.Println("Handler token:", req.Token)
 	claims, err := s.tokenService.Decode(req.Token)
 	if err != nil {
 		return err
