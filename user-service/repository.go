@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/jinzhu/gorm"
 	pb "github.com/willdot/GRPC-Demo/user-service/proto/auth"
 )
@@ -53,6 +55,7 @@ func (repo *UserRepository) GetByEmail(email string) (*pb.User, error) {
 
 // Create will create a new user
 func (repo *UserRepository) Create(user *pb.User) error {
+	log.Println(user)
 	if err := repo.db.Create(user).Error; err != nil {
 		return err
 	}
