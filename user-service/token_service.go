@@ -31,13 +31,15 @@ type TokenService struct {
 
 // Decode a token
 func (s *TokenService) Decode(tokenString string) (*CustomClaims, error) {
-	token, err := jwt.ParseWithClaims(string(key), &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
+
+	fmt.Println("Decode: ", tokenString)
+	tokenType, err := jwt.ParseWithClaims(string(key), &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return key, nil
 	})
 
-	fmt.Println("Token: ", token)
+	fmt.Println("Token: ", tokenType)
 
-	if claims, ok := token.Claims.(*CustomClaims); ok && token.Valid {
+	if claims, ok := tokenType.Claims.(*CustomClaims); ok && tokenType.Valid {
 		return claims, nil
 	} else {
 		return nil, err
