@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/jinzhu/gorm"
-	pb "github.com/willdot/GRPC-Demo/user-service/proto/user"
+	pb "github.com/willdot/GRPC-Demo/user-service/proto/auth"
 )
 
 // Repository ..

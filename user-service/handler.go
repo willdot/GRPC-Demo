@@ -10,7 +10,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"golang.org/x/net/context"
 
-	pb "github.com/willdot/GRPC-Demo/user-service/proto/user"
+	pb "github.com/willdot/GRPC-Demo/user-service/proto/auth"
 )
 
 const topic = "user.created"
