@@ -1,16 +1,26 @@
 package main
 
 import (
-	"encoding/json"
 	"log"
 
+	"golang.org/x/net/context"
+
 	"github.com/micro/go-micro"
-	"github.com/micro/go-micro/broker"
 
 	pb "github.com/willdot/GRPC-Demo/user-service/proto/user"
 )
 
 const topic = "user.created"
+
+// Subscriber ..
+type Subscriber struct{}
+
+// Process ..
+func (sub *Subscriber) Process(ctx context.Context, user *pb.User) error {
+	log.Println("New messaged received")
+	log.Println("Sending email to: ", user.Name)
+	return nil
+}
 
 func main() {
 	srv := micro.NewService(
@@ -20,25 +30,7 @@ func main() {
 
 	srv.Init()
 
-	pubsub := srv.Server().Options().Broker
-	if err := pubsub.Connect(); err != nil {
-		log.Fatal(err)
-	}
-
-	_, err := pubsub.Subscribe(topic, func(p broker.Publication) error {
-		var user *pb.User
-		if err := json.Unmarshal(p.Message().Body, &user); err != nil {
-			return err
-		}
-		log.Println(user)
-
-		go sendEmail(user)
-		return nil
-	})
-
-	if err != nil {
-		log.Println(err)
-	}
+	micro.RegisterSubscriber(topic, srv.Server(), new(Subscriber))
 
 	if err := srv.Run(); err != nil {
 		log.Println(err)
