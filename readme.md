@@ -38,7 +38,7 @@ The result will be a JWT. Use this for future requests
 
 ### Create Consignment
 Add in a heading 'token' and put in the JWT
-
+``` json
 {
       "service": "shippy.consignment",
       "method": "ConsignmentService.Create",
@@ -48,10 +48,11 @@ Add in a heading 'token' and put in the JWT
         "containers": []
       }
 }
+```
 
 ### Get consignments
 Add in a heading 'token' and put in the JWT
-
+``` json
 {
       "service": "shippy.consignment",
       "method": "ConsignmentService.Get",
@@ -59,4 +60,4 @@ Add in a heading 'token' and put in the JWT
         
       }
 }
-
+```
