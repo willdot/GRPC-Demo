@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -33,6 +34,8 @@ func (s *TokenService) Decode(tokenString string) (*CustomClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return key, nil
 	})
+
+	fmt.Println("Token: ", token)
 
 	if claims, ok := token.Claims.(*CustomClaims); ok && token.Valid {
 		return claims, nil
