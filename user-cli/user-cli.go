@@ -21,8 +21,8 @@ func main() {
 
 	client := pb.NewUserServiceClient("go.micro.srv.user", microclient.DefaultClient)
 
-	name := "will andrews"
-	email := "will123@will.com"
+	name := "william andrews"
+	email := "will@hotmail.com"
 	password := "password"
 	company := "civca"
 
