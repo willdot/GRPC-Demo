@@ -68,10 +68,11 @@ func AuthWrapper(fn server.HandlerFunc) server.HandlerFunc {
 
 		authClient := userService.NewUserServiceClient("go.micro.srv.user", client.DefaultClient)
 
-		_, err := authClient.ValidateToken(context.Background(), &userService.Token{
+		authResp, err := authClient.ValidateToken(ctx, &userService.Token{
 			Token: token,
 		})
 
+		log.Println("Auth response: ", authResp)
 		if err != nil {
 			return err
 		}
