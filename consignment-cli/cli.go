@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -48,6 +49,8 @@ func main() {
 
 	file = os.Args[1]
 	token = os.Args[2]
+
+	fmt.Println("Token: ", token)
 
 	consignment, err := parseFile(file)
 
