@@ -7,7 +7,7 @@ import (
 
 	"github.com/micro/go-micro"
 	microclient "github.com/micro/go-micro/client"
-	pb "github.com/willdot/GRPC-Demo/user-service/proto/user"
+	pb "github.com/willdot/GRPC-Demo/user-service/proto/auth"
 )
 
 func main() {
@@ -19,7 +19,7 @@ func main() {
 
 	srv.Init()
 
-	client := pb.NewUserServiceClient("go.micro.srv.user", microclient.DefaultClient)
+	client := pb.NewAuthClient("shippy.auth", microclient.DefaultClient)
 
 	name := "william andrews"
 	email := "will@hotmail.com"

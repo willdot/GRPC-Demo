@@ -20,8 +20,8 @@ func (s *service) GetRepo() Repository {
 	return &ConsignmentRepository{s.session.Clone()}
 }
 
-// CreateConsignment is a method that creates a consignment
-func (s *service) CreateConsignment(ctx context.Context, req *pb.Consignment, res *pb.Response) error {
+// Create is a method that creates a consignment
+func (s *service) Create(ctx context.Context, req *pb.Consignment, res *pb.Response) error {
 
 	defer s.GetRepo().Close()
 
@@ -48,8 +48,8 @@ func (s *service) CreateConsignment(ctx context.Context, req *pb.Consignment, re
 	return nil
 }
 
-// GetConsignments is a method that gets all consignments
-func (s *service) GetConsignments(ctx context.Context, req *pb.GetRequest, res *pb.Response) error {
+// Get is a method that gets all consignments
+func (s *service) Get(ctx context.Context, req *pb.GetRequest, res *pb.Response) error {
 	defer s.GetRepo().Close()
 
 	consignments, err := s.GetRepo().GetAll()

@@ -7,7 +7,7 @@ import (
 
 	"github.com/micro/go-micro"
 
-	pb "github.com/willdot/GRPC-Demo/user-service/proto/user"
+	pb "github.com/willdot/GRPC-Demo/user-service/proto/auth"
 )
 
 const topic = "user.created"
@@ -24,7 +24,7 @@ func (sub *Subscriber) Process(ctx context.Context, user *pb.User) error {
 
 func main() {
 	srv := micro.NewService(
-		micro.Name("go.micro.srv.email"),
+		micro.Name("shippy.email"),
 		micro.Version("latest"),
 	)
 

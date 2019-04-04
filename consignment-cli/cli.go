@@ -36,7 +36,7 @@ func parseFile(file string) (*pb.Consignment, error) {
 func main() {
 
 	cmd.Init()
-	client := pb.NewShippingServiceClient("go.micro.srv.consignment", microclient.DefaultClient)
+	client := pb.NewConsignmentServiceClient("shippy.consignment", microclient.DefaultClient)
 
 	file := defaultFilename
 
@@ -62,14 +62,14 @@ func main() {
 		"token": token,
 	})
 
-	r, err := client.CreateConsignment(ctx, consignment)
+	r, err := client.Create(ctx, consignment)
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
 
 	log.Printf("created: %t", r.Created)
 
-	getAll, err := client.GetConsignments(ctx, &pb.GetRequest{})
+	getAll, err := client.Get(ctx, &pb.GetRequest{})
 
 	if err != nil {
 		log.Fatalf("could not list consignments: %v", err)
