@@ -65,6 +65,8 @@ func (s *service) Auth(ctx context.Context, req *pb.User, res *pb.Token) error {
 
 func (s *service) Create(ctx context.Context, req *pb.User, res *pb.Response) error {
 
+	log.Println("User....: ", req)
+
 	hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return fmt.Errorf("error hashing password: %v", err)

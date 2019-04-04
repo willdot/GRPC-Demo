@@ -2,6 +2,16 @@ version: '3.1'
 
 services:
 
+  database:
+    image: postgres
+    ports:
+      - 5432:5432
+
+  datastore:
+    image: mongo
+    ports:
+      - 27017:27017
+      
   api:
       command: api
       image: microhq/micro:latest
