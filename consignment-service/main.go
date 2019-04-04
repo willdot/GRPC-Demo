@@ -38,7 +38,7 @@ func main() {
 	}
 
 	srv := micro.NewService(
-		micro.Name("go.micro.srv.consignment"),
+		micro.Name("shippy.consignment"),
 		micro.Version("latest"),
 		micro.WrapHandler(AuthWrapper),
 	)
