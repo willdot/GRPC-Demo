@@ -12,7 +12,7 @@ import (
 	"github.com/micro/go-micro/metadata"
 	"github.com/micro/go-micro/server"
 	pb "github.com/willdot/GRPC-Demo/consignment-service/proto/consignment"
-	userService "github.com/willdot/GRPC-Demo/user-service/proto/user"
+	authService "github.com/willdot/GRPC-Demo/user-service/proto/auth"
 	vesselProto "github.com/willdot/GRPC-Demo/vessel-service/proto/vessel"
 	"golang.org/x/net/context"
 )
@@ -66,9 +66,9 @@ func AuthWrapper(fn server.HandlerFunc) server.HandlerFunc {
 		token := meta["Token"]
 		log.Println("Authenticating token: ", token)
 
-		authClient := userService.NewUserServiceClient("go.micro.srv.user", client.DefaultClient)
+		authClient := authService.NewAuthClient("go.micro.srv.user", client.DefaultClient)
 
-		authResp, err := authClient.ValidateToken(ctx, &userService.Token{
+		authResp, err := authClient.ValidateToken(ctx, &authService.Token{
 			Token: token,
 		})
 

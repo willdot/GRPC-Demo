@@ -67,16 +67,17 @@ func (s *service) Create(ctx context.Context, req *pb.User, res *pb.Response) er
 
 	hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
-		return err
+		return fmt.Errorf("error hashing password: %v", err)
 	}
+
 	req.Password = string(hashedPass)
 	if err := s.repo.Create(req); err != nil {
-		return err
+		return fmt.Errorf("error creating user: %v", err)
 	}
 	res.User = req
 
 	if err := s.Publisher.Publish(ctx, req); err != nil {
-		return err
+		return fmt.Errorf("error publishing event: %v", err)
 	}
 
 	return nil
@@ -84,13 +85,10 @@ func (s *service) Create(ctx context.Context, req *pb.User, res *pb.Response) er
 
 func (s *service) ValidateToken(ctx context.Context, req *pb.Token, res *pb.Token) error {
 
-	fmt.Println("Handler token:", req.Token)
 	claims, err := s.tokenService.Decode(req.Token)
 	if err != nil {
 		return err
 	}
-
-	log.Println(claims)
 
 	if claims.User.Id == "" {
 		return errors.New("invalid user")
