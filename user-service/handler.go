@@ -47,7 +47,14 @@ func (s *service) Auth(ctx context.Context, req *pb.User, res *pb.Token) error {
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(req.Password)); err != nil {
 		return err
 	}
-	res.Token = user.Password
+
+	token, err := s.tokenService.Encode(user)
+
+	if err != nil {
+		return err
+	}
+
+	res.Token = token
 	return nil
 }
 
