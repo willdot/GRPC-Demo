@@ -33,9 +33,11 @@ type TokenService struct {
 func (s *TokenService) Decode(tokenString string) (*CustomClaims, error) {
 
 	fmt.Println("Decode: ", tokenString)
-	tokenType, err := jwt.ParseWithClaims(string(key), &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
+	tokenType, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return key, nil
 	})
+
+	fmt.Println("Error: ", err)
 
 	fmt.Println("Token: ", tokenType)
 
