@@ -6,12 +6,18 @@ import (
 	"os"
 
 	"github.com/micro/go-micro"
+	"github.com/micro/go-plugins/micro/cors"
+	"github.com/micro/micro/plugin"
 	pb "github.com/willdot/GRPC-Demo/vessel-service/proto/vessel"
 )
 
 const (
 	defaultHost = "localhost:27017"
 )
+
+func init() {
+	plugin.Register(cors.NewPlugin())
+}
 
 func createDummyData(repo Repository) {
 	defer repo.Close()

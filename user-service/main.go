@@ -41,7 +41,6 @@ func main() {
 		micro.Name("shippy.auth"),
 	)
 
-	// Init will parse the command line flags.
 	srv.Init()
 
 	publisher := micro.NewPublisher("user.created", srv.Client())

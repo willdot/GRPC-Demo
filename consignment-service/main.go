@@ -11,6 +11,8 @@ import (
 	"github.com/micro/go-micro"
 	"github.com/micro/go-micro/metadata"
 	"github.com/micro/go-micro/server"
+	"github.com/micro/go-plugins/micro/cors"
+	"github.com/micro/micro/plugin"
 	pb "github.com/willdot/GRPC-Demo/consignment-service/proto/consignment"
 	authService "github.com/willdot/GRPC-Demo/user-service/proto/auth"
 	vesselProto "github.com/willdot/GRPC-Demo/vessel-service/proto/vessel"
@@ -20,6 +22,10 @@ import (
 const (
 	defaultHost = "localhost:27017"
 )
+
+func init() {
+	plugin.Register(cors.NewPlugin())
+}
 
 func main() {
 
