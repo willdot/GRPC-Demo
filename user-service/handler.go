@@ -79,7 +79,7 @@ func (s *service) Create(ctx context.Context, req *pb.User, res *pb.Response) er
 	}
 	res.User = req
 
-	msg := email.Message{Subject: "hello", Content: "This is an email"}
+	msg := &email.Message{Subject: "hello", Content: "This is an email"}
 
 	fmt.Println("Email: ", msg)
 
