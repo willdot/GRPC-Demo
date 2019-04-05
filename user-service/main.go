@@ -5,8 +5,14 @@ import (
 	"log"
 
 	"github.com/micro/go-micro"
+	"github.com/micro/go-plugins/micro/cors"
+	"github.com/micro/micro/plugin"
 	pb "github.com/willdot/GRPC-Demo/user-service/proto/auth"
 )
+
+func init() {
+	plugin.Register(cors.NewPlugin())
+}
 
 func main() {
 	// Creates a database connection and handles

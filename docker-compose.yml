@@ -22,6 +22,9 @@ services:
           MICRO_REGISTRY: "mdns"
           MICRO_API_HANDLER: "rpc"
           MICRO_NAMESPACE: "shippy"
+          CORS_ALLOWED_METHODS: "POST"
+          CORS_ALLOWED_ORIGINS: "*" 
+          CORS_ALLOWED_HEADERS: "*"
 
   #consignment-cli:
     #build: ./consignment-cli
