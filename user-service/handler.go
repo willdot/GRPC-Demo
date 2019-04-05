@@ -10,6 +10,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"golang.org/x/net/context"
 
+	email "github.com/willdot/GRPC-Demo/email-service/proto/email"
 	pb "github.com/willdot/GRPC-Demo/user-service/proto/auth"
 )
 
@@ -19,7 +20,6 @@ type service struct {
 	repo         Repository
 	tokenService Authable
 	Publisher    micro.Publisher
-	Publisher2   micro.Publisher
 }
 
 func (s *service) Get(ctx context.Context, req *pb.User, res *pb.Response) error {
@@ -79,11 +79,14 @@ func (s *service) Create(ctx context.Context, req *pb.User, res *pb.Response) er
 	}
 	res.User = req
 
-	if err := s.Publisher.Publish(ctx, req); err != nil {
+	msg := email.Message{Subject: "hello", Content: "This is an email"}
+
+	if err := s.Publisher.Publish(ctx, msg); err != nil {
 		return fmt.Errorf("error publishing event: %v", err)
 	}
 
-	if err := s.Publisher2.Publish(ctx, req); err != nil {
+	msg.Content = "I changed the content"
+	if err := s.Publisher.Publish(ctx, msg); err != nil {
 		return fmt.Errorf("error publishing event: %v", err)
 	}
 

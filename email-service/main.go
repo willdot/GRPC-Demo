@@ -7,6 +7,7 @@ import (
 
 	"github.com/micro/go-micro"
 
+	email "github.com/willdot/GRPC-Demo/email-service/proto/email"
 	pb "github.com/willdot/GRPC-Demo/user-service/proto/auth"
 )
 
@@ -17,9 +18,10 @@ const topic2 = "user.created2"
 type Subscriber struct{}
 
 // Process ..
-func (sub *Subscriber) Process(ctx context.Context, user *pb.User) error {
+func (sub *Subscriber) Process(ctx context.Context, email *email.Message) error {
 	log.Println("New messaged received")
-	log.Println("Sending email to: ", user.Name)
+	log.Println(email.Subject)
+	log.Println(email.Content)
 	return nil
 }
 
