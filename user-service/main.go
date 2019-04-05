@@ -44,9 +44,10 @@ func main() {
 	srv.Init()
 
 	publisher := micro.NewPublisher("user.created", srv.Client())
+	publisher2 := micro.NewPublisher("user.created2", srv.Client())
 
 	// Register handler
-	pb.RegisterAuthHandler(srv.Server(), &service{repo, tokenService, publisher})
+	pb.RegisterAuthHandler(srv.Server(), &service{repo, tokenService, publisher, publisher2})
 
 	// Run the server
 	if err := srv.Run(); err != nil {
