@@ -9,12 +9,6 @@ import (
 	math "math"
 )
 
-import (
-	client "github.com/micro/go-micro/client"
-	server "github.com/micro/go-micro/server"
-	context "golang.org/x/net/context"
-)
-
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
@@ -81,126 +75,19 @@ func (m *Message) GetContent() string {
 	return ""
 }
 
-type Request struct {
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *Request) Reset()         { *m = Request{} }
-func (m *Request) String() string { return proto.CompactTextString(m) }
-func (*Request) ProtoMessage()    {}
-func (*Request) Descriptor() ([]byte, []int) {
-	return fileDescriptor_840f7b8354a62044, []int{1}
-}
-
-func (m *Request) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Request.Unmarshal(m, b)
-}
-func (m *Request) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Request.Marshal(b, m, deterministic)
-}
-func (m *Request) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Request.Merge(m, src)
-}
-func (m *Request) XXX_Size() int {
-	return xxx_messageInfo_Request.Size(m)
-}
-func (m *Request) XXX_DiscardUnknown() {
-	xxx_messageInfo_Request.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Request proto.InternalMessageInfo
-
-type Response struct {
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *Response) Reset()         { *m = Response{} }
-func (m *Response) String() string { return proto.CompactTextString(m) }
-func (*Response) ProtoMessage()    {}
-func (*Response) Descriptor() ([]byte, []int) {
-	return fileDescriptor_840f7b8354a62044, []int{2}
-}
-
-func (m *Response) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Response.Unmarshal(m, b)
-}
-func (m *Response) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Response.Marshal(b, m, deterministic)
-}
-func (m *Response) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Response.Merge(m, src)
-}
-func (m *Response) XXX_Size() int {
-	return xxx_messageInfo_Response.Size(m)
-}
-func (m *Response) XXX_DiscardUnknown() {
-	xxx_messageInfo_Response.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Response proto.InternalMessageInfo
-
 func init() {
 	proto.RegisterType((*Message)(nil), "email.Message")
-	proto.RegisterType((*Request)(nil), "email.Request")
-	proto.RegisterType((*Response)(nil), "email.Response")
 }
 
 func init() { proto.RegisterFile("proto/email/email.proto", fileDescriptor_840f7b8354a62044) }
 
 var fileDescriptor_840f7b8354a62044 = []byte{
-	// 140 bytes of a gzipped FileDescriptorProto
+	// 110 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x2f, 0x28, 0xca, 0x2f,
 	0xc9, 0xd7, 0x4f, 0xcd, 0x4d, 0xcc, 0xcc, 0x81, 0x90, 0x7a, 0x60, 0x11, 0x21, 0x56, 0x30, 0x47,
 	0x29, 0x9c, 0x8b, 0xdd, 0x37, 0xb5, 0xb8, 0x38, 0x31, 0x3d, 0x55, 0x48, 0x82, 0x8b, 0x3d, 0x31,
 	0x25, 0xa5, 0x28, 0xb5, 0xb8, 0x58, 0x82, 0x51, 0x81, 0x51, 0x83, 0x33, 0x08, 0xc6, 0x05, 0xc9,
 	0x14, 0x97, 0x26, 0x65, 0xa5, 0x26, 0x97, 0x48, 0x30, 0x41, 0x64, 0xa0, 0x5c, 0x90, 0x4c, 0x72,
-	0x7e, 0x5e, 0x49, 0x6a, 0x5e, 0x89, 0x04, 0x33, 0x44, 0x06, 0xca, 0x55, 0xe2, 0xe4, 0x62, 0x0f,
-	0x4a, 0x2d, 0x2c, 0x4d, 0x2d, 0x2e, 0x51, 0xe2, 0xe2, 0xe2, 0x08, 0x4a, 0x2d, 0x2e, 0xc8, 0xcf,
-	0x2b, 0x4e, 0x35, 0x62, 0xe7, 0x62, 0x75, 0x05, 0x59, 0x9c, 0xc4, 0x06, 0x76, 0x86, 0x31, 0x20,
-	0x00, 0x00, 0xff, 0xff, 0x4c, 0xe0, 0xa7, 0x4d, 0xa1, 0x00, 0x00, 0x00,
-}
-
-// Reference imports to suppress errors if they are not otherwise used.
-var _ context.Context
-var _ client.Option
-var _ server.Option
-
-// Client API for Email service
-
-type EmailClient interface {
-}
-
-type emailClient struct {
-	c           client.Client
-	serviceName string
-}
-
-func NewEmailClient(serviceName string, c client.Client) EmailClient {
-	if c == nil {
-		c = client.NewClient()
-	}
-	if len(serviceName) == 0 {
-		serviceName = "email"
-	}
-	return &emailClient{
-		c:           c,
-		serviceName: serviceName,
-	}
-}
-
-// Server API for Email service
-
-type EmailHandler interface {
-}
-
-func RegisterEmailHandler(s server.Server, hdlr EmailHandler, opts ...server.HandlerOption) {
-	s.Handle(s.NewHandler(&Email{hdlr}, opts...))
-}
-
-type Email struct {
-	EmailHandler
+	0x7e, 0x5e, 0x49, 0x6a, 0x5e, 0x89, 0x04, 0x33, 0x44, 0x06, 0xca, 0x4d, 0x62, 0x03, 0x5b, 0x63,
+	0x0c, 0x08, 0x00, 0x00, 0xff, 0xff, 0x9c, 0x9b, 0xab, 0x08, 0x81, 0x00, 0x00, 0x00,
 }

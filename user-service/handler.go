@@ -81,6 +81,8 @@ func (s *service) Create(ctx context.Context, req *pb.User, res *pb.Response) er
 
 	msg := email.Message{Subject: "hello", Content: "This is an email"}
 
+	fmt.Println("Email: ", msg)
+
 	if err := s.Publisher.Publish(ctx, msg); err != nil {
 		return fmt.Errorf("error publishing event: %v", err)
 	}

@@ -2,15 +2,9 @@ syntax = "proto3";
 
 package email;
 
-service Email {
-}
-
 message Message {
     string address = 1;
     string subject = 2;
     string content = 3;
 }
 
-message Request {}
-
-message Response {}
