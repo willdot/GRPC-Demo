@@ -23,16 +23,6 @@ func (sub *Subscriber) Process(ctx context.Context, user *pb.User) error {
 	return nil
 }
 
-// Subscriber ..
-type Subscriber2 struct{}
-
-// Process ..
-func (sub *Subscriber2) Process(ctx context.Context, user *pb.User) error {
-	log.Println("New messaged received from second")
-	log.Println("Sending email to second: ", user.Name)
-	return nil
-}
-
 func main() {
 	srv := micro.NewService(
 		micro.Name("shippy.email"),
@@ -42,7 +32,6 @@ func main() {
 	srv.Init()
 
 	micro.RegisterSubscriber(topic, srv.Server(), new(Subscriber))
-	micro.RegisterSubscriber(topic2, srv.Server(), new(Subscriber2))
 
 	if err := srv.Run(); err != nil {
 		log.Println(err)
