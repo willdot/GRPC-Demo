@@ -20,4 +20,11 @@ func init() {
 	}
 
 	fmt.Println("cassandra init done")
+
+	keySpaceMeta, _ := Session.KeyspaceMetadata("shippy")
+
+	if _, exists := keySpaceMeta.Tables["user"]; exists != true {
+		Session.Query("CREATE TABLE user (id UUID, name text, email text, password text, company text, PRIMARY KEY(id))").Exec()
+		Session.Query("create index UserEmailIndex on user(email)").Exec()
+	}
 }

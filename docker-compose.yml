@@ -7,6 +7,13 @@ services:
     ports:
       - 5432:5432
 
+  cassandradatabase:
+    build: ./cassandra
+    ports: 
+      - 9042:9042
+    environment:
+        CASSANDRA_KEYSPACE: "shippy"
+
   datastore:
     image: mongo
     ports:
