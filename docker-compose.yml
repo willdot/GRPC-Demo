@@ -10,9 +10,15 @@ services:
   cassandradatabase:
     build: ./cassandra
     ports: 
-      - 9042:9042
+      - '7000:7000'
+      - '7001:7001'
+      - '7199:7199'
+      - '9042:9042'
+      - '9160:9160'
+      - '9404:9404'
     environment:
         CASSANDRA_KEYSPACE: "shippy"
+        CASSANDRA_START_RPC: "true"
 
   datastore:
     image: mongo
