@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/micro/go-micro"
 	"github.com/micro/go-plugins/micro/cors"
@@ -17,20 +16,10 @@ func init() {
 func main() {
 	// Creates a database connection and handles
 	// closing it again before exit.
-	db, err := CreateConnection()
-	defer db.Close()
+	CassandraSession := Session
+	defer CassandraSession.Close()
 
-	if err != nil {
-		log.Fatalf("Could not connect to DB: %v", err)
-	}
-
-	// Automatically migrates the user struct
-	// into database columns/types etc. This will
-	// check for changes and migrate them each time
-	// this service is restarted.
-	db.AutoMigrate(&pb.User{})
-
-	repo := &UserRepository{db}
+	repo := &UserRepository{CassandraSession}
 
 	tokenService := &TokenService{repo}
 

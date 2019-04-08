@@ -1,9 +1,10 @@
 package main
 
 import (
+	"errors"
 	"log"
 
-	"github.com/jinzhu/gorm"
+	"github.com/gocql/gocql"
 	pb "github.com/willdot/GRPC-Demo/user-service/proto/auth"
 )
 
@@ -17,15 +18,27 @@ type Repository interface {
 
 // UserRepository is a datastore
 type UserRepository struct {
-	db *gorm.DB
+	Session *gocql.Session
 }
 
 // GetAll will get all users from database
 func (repo *UserRepository) GetAll() ([]*pb.User, error) {
 	var users []*pb.User
 
-	if err := repo.db.Find(&users).Error; err != nil {
-		return nil, err
+	m := map[string]interface{}{}
+
+	query := repo.Session.Query("SELECT * FROM user")
+	iterable := query.Iter()
+
+	for iterable.MapScan(m) {
+		users = append(users, &pb.User{
+			Id:       m["id"].(gocql.UUID).String(),
+			Name:     m["name"].(string),
+			Email:    m["email"].(string),
+			Password: m["password"].(string),
+			Company:  m["company"].(string),
+		})
+		m = map[string]interface{}{}
 	}
 
 	return users, nil
@@ -33,32 +46,69 @@ func (repo *UserRepository) GetAll() ([]*pb.User, error) {
 
 // Get will get a single user
 func (repo *UserRepository) Get(id string) (*pb.User, error) {
-	var user *pb.User
-	user.Id = id
+	var found = false
+	var user pb.User
+	m := map[string]interface{}{}
 
-	if err := repo.db.First(&user).Error; err != nil {
-		return nil, err
+	query := repo.Session.Query("SELECT * FROM user WHERE id=? LIMIT 1", id)
+	iterable := query.Consistency(gocql.One).Iter()
+
+	for iterable.MapScan(m) {
+		found = true
+		user = pb.User{
+			Id:       m["id"].(gocql.UUID).String(),
+			Name:     m["name"].(string),
+			Email:    m["email"].(string),
+			Password: m["password"].(string),
+			Company:  m["company"].(string),
+		}
 	}
 
-	return user, nil
+	if found {
+		return &user, nil
+	}
+
+	return nil, errors.New("User can't be found")
 }
 
 // GetByEmail will get a user by email
 func (repo *UserRepository) GetByEmail(email string) (*pb.User, error) {
-	user := &pb.User{}
-	if err := repo.db.Where("email = ?", email).
-		First(&user).Error; err != nil {
-		return nil, err
+
+	var found = false
+	var user pb.User
+	m := map[string]interface{}{}
+
+	query := repo.Session.Query("SELECT * FROM user WHERE email=? LIMIT 1", email)
+	iterable := query.Consistency(gocql.One).Iter()
+
+	for iterable.MapScan(m) {
+		found = true
+		user = pb.User{
+			Id:       m["id"].(gocql.UUID).String(),
+			Name:     m["name"].(string),
+			Email:    m["email"].(string),
+			Password: m["password"].(string),
+			Company:  m["company"].(string),
+		}
 	}
-	return user, nil
+
+	if found {
+		return &user, nil
+	}
+
+	return nil, errors.New("User can't be found")
 }
 
 // Create will create a new user
 func (repo *UserRepository) Create(user *pb.User) error {
 	log.Println("User")
 	log.Println(user)
-	if err := repo.db.Create(user).Error; err != nil {
-		return err
-	}
-	return nil
+
+	gocqlUUID := gocql.TimeUUID()
+
+	err := repo.Session.Query(`
+	INSERT INTO user (id, name, email, password, company) VALUES (?,?,?,?,?)`,
+		gocqlUUID, user.Name, user.Email, user.Password, user.Company).Exec()
+
+	return err
 }

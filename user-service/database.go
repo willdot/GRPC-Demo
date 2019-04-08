@@ -2,26 +2,22 @@ package main
 
 import (
 	"fmt"
-	"os"
 
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	"github.com/gocql/gocql"
 )
 
-// CreateConnection ..
-func CreateConnection() (*gorm.DB, error) {
+// Session is a Cassandra session
+var Session *gocql.Session
 
-	// Get database details from environment variables
-	host := os.Getenv("DB_HOST")
-	user := os.Getenv("DB_USER")
-	DBName := os.Getenv("DB_NAME")
-	password := os.Getenv("DB_PASSWORD")
+func init() {
+	var err error
+	cluster := gocql.NewCluster("127.0.0.1")
+	cluster.Port = 9042
+	cluster.Keyspace = "shippy"
+	Session, err = cluster.CreateSession()
+	if err != nil {
+		panic(err)
+	}
 
-	return gorm.Open(
-		"postgres",
-		fmt.Sprintf(
-			"host=%s user=%s dbname=%s sslmode=disable password=%s",
-			host, user, DBName, password,
-		),
-	)
+	fmt.Println("cassandra init done")
 }
