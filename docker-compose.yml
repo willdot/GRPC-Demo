@@ -7,7 +7,7 @@ services:
     ports:
       - 5432:5432
 
-  cassandradatabase:
+  cassandra00:
     build: ./cassandra
     ports: 
       - '7000:7000'
