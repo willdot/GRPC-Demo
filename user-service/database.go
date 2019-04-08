@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/gocql/gocql"
 )
@@ -30,6 +31,7 @@ func init() {
 	cluster := gocql.NewCluster(host)
 	cluster.Port = port
 	cluster.ProtoVersion = 4
+	cluster.ConnectTimeout = time.Second * 10
 	cluster.DisableInitialHostLookup = true
 	cluster.Keyspace = "shippy"
 

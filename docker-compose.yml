@@ -86,8 +86,8 @@ services:
       MICRO_ADDRESS: ":50051"
       MICRO_REGISTRY: "mdns"
       DB_NAME: "postgres"
-      DB_HOST: "172.17.0.1:9160"
-      DB_PORT: "5432"
+      DB_HOST: "172.0.0.1"
+      DB_PORT: "9160"
       DB_USER: "postgres"
       DB_PASSWORD: "postgres"
     #depends_on:
