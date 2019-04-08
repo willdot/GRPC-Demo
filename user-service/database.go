@@ -1,3 +1,5 @@
+// +build gocql_debug
+
 package main
 
 import (
@@ -20,7 +22,7 @@ func init() {
 
 	var err error
 	cluster := gocql.NewCluster(host)
-	cluster.Port = 9160
+	//cluster.Port = 9160
 	cluster.ProtoVersion = 4
 	cluster.Keyspace = "shippy"
 
