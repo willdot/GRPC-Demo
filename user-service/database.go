@@ -14,6 +14,8 @@ func init() {
 	cluster := gocql.NewCluster("127.0.0.1")
 	//cluster.Port = 9042
 	cluster.Keyspace = "shippy"
+
+	fmt.Println("Connecting now")
 	Session, err = cluster.CreateSession()
 	if err != nil {
 		panic(err)

@@ -19,6 +19,7 @@ services:
     environment:
         CASSANDRA_KEYSPACE: "shippy"
         CASSANDRA_START_RPC: "true"
+        CASSANDRA_RPC_ADDRESS: "0.0.0.0"
 
   datastore:
     image: mongo
