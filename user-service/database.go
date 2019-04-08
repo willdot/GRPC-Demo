@@ -12,7 +12,7 @@ var Session *gocql.Session
 func init() {
 	var err error
 	cluster := gocql.NewCluster("127.0.0.1")
-	//cluster.Port = 9042
+	cluster.Port = 9160
 	cluster.Keyspace = "shippy"
 
 	fmt.Println("Connecting now")
@@ -21,6 +21,7 @@ func init() {
 		panic(err)
 	}
 
+	fmt.Println(cluster.Port)
 	fmt.Println("cassandra init done")
 
 	keySpaceMeta, _ := Session.KeyspaceMetadata("shippy")
