@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/gocql/gocql"
 )
@@ -10,8 +11,15 @@ import (
 var Session *gocql.Session
 
 func init() {
+
+	host := os.Getenv("DB_HOST")
+
+	if host == "" {
+		host = "127.0.0.1"
+	}
+
 	var err error
-	cluster := gocql.NewCluster("192.168.144.4")
+	cluster := gocql.NewCluster(host)
 	cluster.Port = 9160
 	cluster.Keyspace = "shippy"
 
