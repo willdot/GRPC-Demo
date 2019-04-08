@@ -1,5 +1,3 @@
-// +build gocql_debug
-
 package main
 
 import (
