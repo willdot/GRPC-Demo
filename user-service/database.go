@@ -29,8 +29,9 @@ func init() {
 
 	var err error
 	cluster := gocql.NewCluster(host)
-	cluster.Port = port
 	cluster.ProtoVersion = 4
+	cluster.Port = port
+
 	cluster.ConnectTimeout = time.Second * 10
 	cluster.DisableInitialHostLookup = true
 	cluster.Keyspace = "shippy"
