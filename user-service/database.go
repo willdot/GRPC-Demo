@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strconv"
 
 	"github.com/gocql/gocql"
 )
@@ -18,10 +19,18 @@ func init() {
 		host = "127.0.0.1"
 	}
 
+	portString := os.Getenv("DB_PORT")
+
+	var port int
+	if portString != "" {
+		port, _ = strconv.Atoi(portString)
+	}
+
 	var err error
 	cluster := gocql.NewCluster(host)
-	//cluster.Port = 9160
+	cluster.Port = port
 	cluster.ProtoVersion = 4
+	cluster.DisableInitialHostLookup = true
 	cluster.Keyspace = "shippy"
 
 	fmt.Println("Connecting now")

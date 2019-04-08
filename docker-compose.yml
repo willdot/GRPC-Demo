@@ -19,6 +19,9 @@ services:
     environment:
         CASSANDRA_KEYSPACE: "shippy"
         CASSANDRA_START_RPC: "true"
+        CASSANDRA_BROADCAST_ADDRESS: "127.0.0.1"
+        CASSANDRA_RPC_ADDRESS: "127.0.0.1"
+        CASSANDRA_LISTEN_ADDRESS: "127.0.0.1"
 
   datastore:
     image: mongo
@@ -83,10 +86,10 @@ services:
       MICRO_ADDRESS: ":50051"
       MICRO_REGISTRY: "mdns"
       DB_NAME: "postgres"
-      DB_HOST: "192.168.144.4"
+      DB_HOST: "172.17.0.1:9160"
       DB_PORT: "5432"
       DB_USER: "postgres"
       DB_PASSWORD: "postgres"
-    depends_on:
-      - database
+    #depends_on:
+      #- cassandra00
       
