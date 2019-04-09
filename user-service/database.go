@@ -28,7 +28,7 @@ func init() {
 	}
 	var err error
 	cluster := gocql.NewCluster(host)
-	//cluster.ProtoVersion = 4
+	cluster.ProtoVersion = 4
 	cluster.Keyspace = "shippy"
 	cluster.Port = port
 
@@ -41,7 +41,6 @@ func init() {
 		panic(err)
 	}
 
-	fmt.Println(cluster.Port)
 	fmt.Println("cassandra init done")
 
 	keySpaceMeta, _ := Session.KeyspaceMetadata("shippy")
