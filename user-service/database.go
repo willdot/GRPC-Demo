@@ -26,15 +26,14 @@ func init() {
 	if portString != "" {
 		port, _ = strconv.Atoi(portString)
 	}
-
 	var err error
 	cluster := gocql.NewCluster(host)
-	cluster.ProtoVersion = 4
+	//cluster.ProtoVersion = 4
+	cluster.Keyspace = "shippy"
 	cluster.Port = port
 
 	cluster.ConnectTimeout = time.Second * 10
 	cluster.DisableInitialHostLookup = true
-	cluster.Keyspace = "shippy"
 
 	fmt.Println("Connecting now")
 	Session, err = cluster.CreateSession()
